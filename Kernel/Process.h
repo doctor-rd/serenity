@@ -80,6 +80,12 @@ enum class VeilState {
     Locked,
 };
 
+class Veil {
+public:
+    VeilState veil_state { VeilState::None };
+    UnveilNode unveiled_paths { "/", { .full_path = "/" } };
+};
+
 typedef HashMap<FlatPtr, RefPtr<FutexQueue>> FutexQueues;
 
 struct LoadResult;
