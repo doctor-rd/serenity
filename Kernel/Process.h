@@ -80,7 +80,7 @@ enum class VeilState {
     Locked,
 };
 
-class Veil {
+class Veil : public RefCounted<Veil> {
 public:
     VeilState veil_state { VeilState::None };
     UnveilNode unveiled_paths { "/", { .full_path = "/" } };
