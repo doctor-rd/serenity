@@ -39,6 +39,10 @@ KResultOr<FlatPtr> Process::sys$unveil(Userspace<const Syscall::SC_unveil_params
     if (m_veil_state == VeilState::Locked)
         return EPERM;
 
+    if (!params.path.characters) {
+        return 0;
+    }
+
     if (!params.path.characters || !params.permissions.characters)
         return EINVAL;
 
