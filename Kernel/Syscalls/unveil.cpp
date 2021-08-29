@@ -67,6 +67,7 @@ KResultOr<FlatPtr> Process::sys$unveil(Userspace<const Syscall::SC_unveil_params
 
     // Let's work out permissions first...
     unsigned new_permissions = 0;
+    bool modify_veil_state = true;
     for (const char permission : permissions->view()) {
         switch (permission) {
         case 'r':
@@ -118,6 +119,7 @@ KResultOr<FlatPtr> Process::sys$unveil(Userspace<const Syscall::SC_unveil_params
     auto& matching_node = m_unveiled_paths.traverse_until_last_accessible_node(it, path_parts.end());
     if (it.is_end()) {
         // If the path has already been explicitly unveiled, do not allow elevating its permissions.
+        // nicht gut
         if (matching_node.was_explicitly_unveiled()) {
             if (new_permissions & ~matching_node.permissions())
                 return EPERM;
@@ -131,7 +133,7 @@ KResultOr<FlatPtr> Process::sys$unveil(Userspace<const Syscall::SC_unveil_params
             update_intermediate_node_permissions(matching_node, (UnveilAccess)new_permissions);
 
         matching_node.set_metadata({ matching_node.path(), (UnveilAccess)new_permissions, true });
-        m_veil_state = VeilState::Dropped;
+        if(modify_veil_state) m_veil_state = VeilState::Dropped;
         return 0;
     }
 
@@ -145,7 +147,7 @@ KResultOr<FlatPtr> Process::sys$unveil(Userspace<const Syscall::SC_unveil_params
         });
 
     VERIFY(m_veil_state != VeilState::Locked);
-    m_veil_state = VeilState::Dropped;
+    if(modify_veil_state) m_veil_state = VeilState::Dropped;
     return 0;
 }
 
