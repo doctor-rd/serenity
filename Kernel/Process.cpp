@@ -927,6 +927,18 @@ ErrorOr<void> Process::require_promise(Pledge promise)
     if (!has_promises())
         return {};
 
+    if (has_promised(Pledge::loader)) {
+        if (promise == Pledge::stdio)
+            return {};
+        if (promise == Pledge::rpath)
+            return {};
+        if (promise == Pledge::prot_exec)
+            return {};
+        dbgln("Dropping promise {} due to requested promise {}", to_string(Pledge::loader), to_string(promise));
+        ProtectedDataMutationScope scope { *this };
+        m_protected_values.promises &= ~(1u << (u32)Pledge::loader);
+    }
+
     if (has_promised(promise))
         return {};
 
