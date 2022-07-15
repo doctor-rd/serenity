@@ -538,6 +538,10 @@ ErrorOr<FlatPtr> Process::sys$msyscall(Userspace<void*> address)
 
     if (!address) {
         address_space().set_enforces_syscall_regions(true);
+        if (has_promised(Pledge::loader)) {
+            ProtectedDataMutationScope scope { *this };
+            m_protected_values.promises &= ~(1u << (u32)Pledge::loader);
+        }
         return 0;
     }
 
