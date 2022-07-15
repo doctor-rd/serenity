@@ -66,6 +66,7 @@ Time kgettimeofday();
     __ENUMERATE_PLEDGE_PROMISE(sigaction) \
     __ENUMERATE_PLEDGE_PROMISE(setkeymap) \
     __ENUMERATE_PLEDGE_PROMISE(prot_exec) \
+    __ENUMERATE_PLEDGE_PROMISE(loader)    \
     __ENUMERATE_PLEDGE_PROMISE(map_fixed) \
     __ENUMERATE_PLEDGE_PROMISE(getkeymap) \
     __ENUMERATE_PLEDGE_PROMISE(no_error)
