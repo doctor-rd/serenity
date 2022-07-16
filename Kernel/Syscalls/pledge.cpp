@@ -46,11 +46,15 @@ ErrorOr<FlatPtr> Process::sys$pledge(Userspace<Syscall::SC_pledge_params const*>
     if (promises) {
         if (!parse_pledge(promises->view(), new_promises))
             return EINVAL;
-
-        if (m_protected_values.has_promises && (new_promises & ~m_protected_values.promises)) {
-            if (!(m_protected_values.promises & (1u << (u32)Pledge::no_error)))
-                return EPERM;
-            new_promises &= m_protected_values.promises;
+        if (m_protected_values.has_promises) {
+            bool pass = false;
+            if (m_protected_values.has_savedpromises && (~new_promises | m_protected_values.savedpromises))
+                pass = true;
+            if (!pass && (new_promises & ~m_protected_values.promises)) {
+                if (!(m_protected_values.promises & (1u << (u32)Pledge::no_error)))
+                    return EPERM;
+                new_promises &= m_protected_values.promises;
+            }
         }
     }
 
@@ -71,6 +75,9 @@ ErrorOr<FlatPtr> Process::sys$pledge(Userspace<Syscall::SC_pledge_params const*>
     // leave the caller in an unexpected state.
 
     ProtectedDataMutationScope scope { *this };
+
+    m_protected_values.has_savedpromises = false;
+    m_protected_values.savedpromises = 0;
 
     if (promises) {
         m_protected_values.has_promises = true;

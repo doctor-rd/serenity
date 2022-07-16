@@ -107,6 +107,9 @@ class Process final
         Atomic<u32> promises { 0 };
         Atomic<bool> has_execpromises { false };
         Atomic<u32> execpromises { 0 };
+        // do we need has_savedpromises?
+        Atomic<bool> has_savedpromises { false };
+        Atomic<u32> savedpromises { 0 };
         mode_t umask { 022 };
         VirtualAddress signal_trampoline;
         Atomic<u32> thread_count { 0 };
