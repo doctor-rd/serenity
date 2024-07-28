@@ -2,8 +2,6 @@
 
 Graphical Unix-like operating system for x86 computers.
 
-![Travis CI status](https://api.travis-ci.com/SerenityOS/serenity.svg?branch=master)
-
 ## About
 
 SerenityOS is a love letter to '90s user interfaces with a custom Unix-like core. It flatters with sincerity by stealing beautiful ideas from various other systems.
@@ -15,10 +13,6 @@ I (Andreas) regularly post raw hacking sessions and demos on [my YouTube channel
 Sometimes I write about the system on [my github.io blog](https://awesomekling.github.io/).
 
 I'm also on [Patreon](https://www.patreon.com/serenityos) and [GitHub Sponsors](https://github.com/sponsors/awesomekling) if you would like to show some support that way.
-
-## Screenshot
-
-![Screenshot as of 1133aca](https://raw.githubusercontent.com/SerenityOS/serenity/master/Meta/screenshot-1133aca.png)
 
 ## Kernel features
 
@@ -81,10 +75,6 @@ I'm also on [Patreon](https://www.patreon.com/serenityos) and [GitHub Sponsors](
 ## How do I build and run this?
 
 See the [SerenityOS build instructions](https://github.com/SerenityOS/serenity/blob/master/Documentation/BuildInstructions.md)
-
-## Wanna chat?
-
-Come hang out with us in `#serenityos` on the Freenode IRC network.
 
 ## Author
 
